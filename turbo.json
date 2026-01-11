@@ -6,6 +6,11 @@
       "dependsOn": ["^build"],
       "outputs": ["dist/**"]
     },
+    "publish": {
+      "dependsOn": ["^publish"],
+      "env": ["NPM_TOKEN"],
+      "cache": false
+    },
     "lint": {
       "dependsOn": ["^lint"]
     },

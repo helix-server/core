@@ -1,7 +1,12 @@
 {
 	"name": "@helix-server/utils",
-	"version": "0.1.0",
+	"version": "0.1.3",
 	"description": "Utilities for Helix Server",
+	"private": false,
+	"publishConfig": {
+		"access": "public",
+		"registry": "https://registry.npmjs.org/"
+	},
 	"type": "module",
 	"exports": {
 		".": {
@@ -17,12 +22,49 @@
 	"files": [
 		"dist"
 	],
+	"author": "LeandroEPK <leandro.kondratzky@gmail.com>",
+	"contributors": [
+		{
+			"email": "simonvillafanee@gmail.com",
+			"name": "Simón Villafañe",
+			"url": "https://github.com/itssimmons"
+		}
+	],
+	"keywords": [
+		"helix",
+		"helix-server",
+		"server",
+		"framework",
+		"web",
+		"api",
+		"bun",
+		"nodejs",
+		"typescript",
+		"extensible",
+		"performance",
+		"lightweight",
+		"http",
+		"https",
+		"tcp",
+		"middleware",
+		"routing",
+		"plugins"
+	],
+	"homepage": "https://github.com/helix-server/helix#readme",
+	"bugs": {
+		"url": "https://github.com/helix-server/helix/issues"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/helix-server/helix.git"
+	},
 	"scripts": {
 		"build": "bunup",
 		"dev": "bunup --watch",
 		"postinstall": "bun simple-git-hooks",
 		"lint": "biome check .",
 		"lint:fix": "biome check --write .",
+		"publish": "npm publish --access public",
 		"release": "bumpp --commit --push --tag",
 		"test": "bun test",
 		"test:coverage": "bun test --coverage",

@@ -14,36 +14,69 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - run: corepack enable
-      - uses: actions/setup-node@v4
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Cache turbo
+        uses: actions/cache@v4
+        with:
+          path: .turbo
+          key: ${{ runner.os }}-turbo-${{ github.sha }}
+          restore-keys: |
+            ${{ runner.os }}-turbo-
+      - name: Cache Bun dependencies
+        uses: actions/cache@v4
+        with:
+          path: .bun/install/cache
+          key: ${{ runner.os }}-bun-${{ hashFiles('**/bun.lockb') }}
+          restore-keys: |
+            ${{ runner.os }}-bun-
+
+
+      - name: Setup Node.js and Bun
+        uses: actions/setup-node@v4
         with:
           node-version: 22
-      # Pick your own package manager and build script
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
       - run: bun install --frozen-lockfile
       - run: bun run build -F docs
         env:
           NODE_OPTIONS: "--max-old-space-size=4096"
           BUN_JSC_forceRAMSize: 4G
+
       - name: Upload artifact
-        uses: actions/upload-pages-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
+          name: docs-site
           path: ./.output/public
 
   deploy:
-    # Add a dependency to the build job
     needs: build
-    # Grant GITHUB_TOKEN the permissions required to make a Pages deployment
-    permissions:
-      pages: write      # to deploy to Pages
-      id-token: write   # to verify the deployment originates from an appropriate source
-    # Deploy to the github_pages environment
-    environment:
-      name: docs
-      url: ${{ steps.deployment.outputs.page_url }}
-    # Specify runner + deployment step
     runs-on: ubuntu-latest
     steps:
-      - name: Deploy to GitHub Pages
-        id: deployment
-        uses: actions/deploy-pages@v4
+      - name: Download artifact
+        uses: actions/download-artifact@v5
+        with:
+          name: docs-site
+
+      - name: Checkout docs repository
+        uses: actions/checkout@v4
+        with:
+          branch: main
+          repository: ${{ vars.DOCS_REPO }}
+          token: ${{ secrets.DOCS_DEPLOY_TOKEN }}
+          path: docs-repo
+      - name: Replace contents
+        run: |
+          rm -rf docs-repo/*
+          cp -r .output/public/* docs-repo/
+      - name: Commit and push changes
+        run: |
+          cd docs-repo
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add .
+          git commit -m "docs: update from monorepo" || echo "No changes"
+          git push origin main

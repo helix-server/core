@@ -30,4 +30,5 @@ For detailed documentation, visit our [Docs](/#).
 We welcome contributions from the community! Check out our [Contributing Guide](/#) to get involved.
 
 ## Why Helix Server?
-Beautifully designed Nuxt Content template built with shadcn-vue. :br Customizable. Compatible. Open Source.
+
+Simple, elegant, and efficient, what more could you ask for in a web server framework.

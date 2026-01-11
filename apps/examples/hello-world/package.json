@@ -4,7 +4,8 @@
   "type": "module",
   "private": true,
   "scripts": {
-		"serve": "bun src/index.ts"
+		"serve": "bun src/index.ts",
+		"dev": "bun src/index.ts"
 	},
   "devDependencies": {
     "@types/bun": "latest"

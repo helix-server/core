@@ -13,14 +13,14 @@ export default defineAppConfig({
 		header: {
 			title: 'Helix Server',
 			showTitle: true,
-			darkModeToggle: false,
+			darkModeToggle: true,
 			languageSwitcher: {
 				enable: true,
 				triggerType: 'icon',
 				dropdownType: 'select',
 			},
 			logo: {
-				light: '/logo.svg',
+				light: '/logo-dark.svg',
 				dark: '/logo.svg',
 			},
 			nav: [],
@@ -47,7 +47,7 @@ export default defineAppConfig({
 			editLink: {
 				enable: true,
 				pattern:
-					'https://github.com/helix-server/core/edit/main/packages/docs/content/:path',
+					'https://github.com/helix-server/core/edit/main/apps/docs/content/:path',
 				text: 'Edit this page on GitHub',
 				icon: 'lucide:square-pen',
 				placement: ['docsFooter', 'toc'],

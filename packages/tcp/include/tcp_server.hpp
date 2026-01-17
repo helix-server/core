@@ -52,11 +52,13 @@ public:
     
     /**
      * Get the server address
+     * @return The IP address the server is configured to bind to
      */
     const std::string& getAddress() const { return config_.address; }
     
     /**
      * Get the server port
+     * @return The port number the server is configured to listen on
      */
     int getPort() const { return config_.port; }
 

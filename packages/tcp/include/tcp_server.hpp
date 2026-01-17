@@ -1,10 +1,14 @@
 #ifndef HELIX_TCP_SERVER_HPP
 #define HELIX_TCP_SERVER_HPP
 
+#include <memory>
 #include <string>
 
 namespace helix {
 namespace tcp {
+
+// Default backlog size for listen() call
+constexpr int DEFAULT_BACKLOG = 10;
 
 /**
  * Configuration for creating a TCP server
@@ -68,9 +72,9 @@ private:
  * 
  * @param address The IP address to bind to (e.g., "127.0.0.1", "0.0.0.0")
  * @param port The port number to listen on
- * @return Pointer to a new TcpServer instance
+ * @return Unique pointer to a new TcpServer instance
  */
-TcpServer* create_server(const std::string& address, int port);
+std::unique_ptr<TcpServer> create_server(const std::string& address, int port);
 
 }  // namespace tcp
 }  // namespace helix

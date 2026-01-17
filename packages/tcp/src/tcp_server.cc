@@ -62,7 +62,7 @@ bool TcpServer::start() {
     }
     
     // Listen for incoming connections
-    if (listen(socket_fd_, 10) < 0) {
+    if (listen(socket_fd_, DEFAULT_BACKLOG) < 0) {
         std::cerr << "Failed to listen on socket" << std::endl;
         close(socket_fd_);
         socket_fd_ = -1;
@@ -87,9 +87,9 @@ bool TcpServer::isRunning() const {
     return is_running_;
 }
 
-TcpServer* create_server(const std::string& address, int port) {
+std::unique_ptr<TcpServer> create_server(const std::string& address, int port) {
     ServerConfig config(address, port);
-    return new TcpServer(config);
+    return std::make_unique<TcpServer>(config);
 }
 
 }  // namespace tcp

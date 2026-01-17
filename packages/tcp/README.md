@@ -36,7 +36,7 @@ packages/tcp/
 ### Main Function
 
 ```cpp
-TcpServer* create_server(const std::string& address, int port);
+std::unique_ptr<TcpServer> create_server(const std::string& address, int port);
 ```
 
 Creates a new TCP server instance.
@@ -45,7 +45,7 @@ Creates a new TCP server instance.
 - `address`: IP address to bind to (e.g., "127.0.0.1", "0.0.0.0")
 - `port`: Port number to listen on
 
-**Returns:** Pointer to a new `TcpServer` instance
+**Returns:** Unique pointer to a new `TcpServer` instance
 
 ### TcpServer Class
 
@@ -116,13 +116,10 @@ bazel test //packages/tcp:tcp_server_test
 
 ```cpp
 #include "tcp_server.hpp"
-#include <memory>
 
 int main() {
     // Create a TCP server
-    std::unique_ptr<helix::tcp::TcpServer> server(
-        helix::tcp::create_server("127.0.0.1", 8080)
-    );
+    auto server = helix::tcp::create_server("127.0.0.1", 8080);
     
     // Start the server
     if (server->start()) {
